@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>สมัครสมาชิก</title>
+</head>
+
+<body>
+
+<h2>สมัครสมาชิก</h2>
+
+<input type="text" id="name" placeholder="ชื่อ">
+
+<input type="tel" id="phone" placeholder="เบอร์โทร">
+
+<button onclick="register()">
+สมัครสมาชิก
+</button>
+
+<script>
+
+async function register(){
+
+    const name=document.getElementById("name").value;
+    const phone=document.getElementById("phone").value;
+
+    const res = await fetch("http://localhost:3000/api/register", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        name,
+        phone
+    })
+});
+
+    const data=await res.json();
+
+    alert(data.message);
+
+}
+
+</script>
+
+</body>
+</html>
