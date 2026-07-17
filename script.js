@@ -195,7 +195,7 @@ let ok = confirm(
 
     if(ok){
 
-        fetch("http://192.168.1.115:3000/order", {
+        fetch("https://coffee-time-69oq.onrender.com/order", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -250,39 +250,7 @@ function searchMenu(){
     }
 
 }
-function addCart(name, price, sweetID = null, typeID = null){
 
-    let sweet = "-";
-    let type = "-";
-
-    if(sweetID){
-        sweet = document.getElementById(sweetID).value;
-    }
-
-    if(typeID){
-        type = document.getElementById(typeID).value;
-    }
-
-    let found = cart.find(item =>
-        item.name === name &&
-        item.sweet === sweet &&
-        item.type === type
-    );
-
-    if(found){
-        found.quantity++;
-    }else{
-        cart.push({
-            name:name,
-            price:price,
-            sweet:sweet,
-            type:type,
-            quantity:1
-        });
-    }
-
-    showCart();
-}
 // =============================
 // ล้างตะกร้าทั้งหมด
 // =============================
@@ -301,51 +269,9 @@ function clearCart(){
     }
 
 }
-function changeStatus(orderNo, status){
+async function changeStatus(orderNo, status){
 
-    fetch("http://192.168.1.115:3000/order/" + orderNo, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            status: status
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        loadOrders();
-    });
-
-}
-async function checkStatus(){
-
-    let orderNo = localStorage.getItem("lastOrder");
-
-    if(!orderNo){
-        return;
-    }
-
-    let res = await fetch("http://192.168.1.115:3000/order/" + orderNo);
-
-    if(!res.ok){
-        return;
-    }
-
-    let order = await res.json();
-
-    document.getElementById("orderStatus").innerHTML =
-        `
-        เลขออเดอร์ : ${order.orderNo}<br>
-        สถานะ : ${order.status}
-        `;
-}
-checkStatus();
-
-setInterval(checkStatus,1000);
-async function changeStatus(orderNo,status){
-
-    await fetch("http://192.168.1.115:3000/order/"+orderNo,{
+    await fetch("https://coffee-time-69oq.onrender.com/order/" + orderNo, {
 
         method:"PUT",
 
@@ -353,10 +279,8 @@ async function changeStatus(orderNo,status){
             "Content-Type":"application/json"
         },
 
-        body:JSON.stringify({
-
-            status:status
-
+        body: JSON.stringify({
+            status: status
         })
 
     });
@@ -372,7 +296,7 @@ async function checkStatus(){
         return;
     }
 
-    let res = await fetch("http://192.168.1.115:3000/order/" + orderNo);
+    let res = await fetch("https://coffee-time-69oq.onrender.com/order/" + orderNo);
 
     if(!res.ok){
         return;
@@ -380,10 +304,17 @@ async function checkStatus(){
 
     let order = await res.json();
 
-    document.getElementById("orderStatus").innerHTML = `
+let statusBox = document.getElementById("orderStatus");
+
+if(statusBox){
+
+    statusBox.innerHTML = `
         <h3>เลขออเดอร์ : ${order.orderNo}</h3>
         <h2>สถานะ : ${order.status}</h2>
     `;
+
+}
+
 }
 
 checkStatus();
