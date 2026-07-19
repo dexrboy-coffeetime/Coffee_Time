@@ -111,26 +111,6 @@ x${item.quantity}
 
 }
 
-// เปลี่ยนสถานะออเดอร์
-function changeStatus(orderNo, status){
-
-    fetch("https://coffee-time-69oq.onrender.com/order/" + orderNo, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            status: status
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log(data);
-        loadOrders();
-    });
-
-}
-
 // โหลดข้อมูลครั้งแรก
 loadOrders();
 
@@ -140,15 +120,14 @@ setInterval(loadOrders,1000);
 async function changeStatus(orderNo, status){
 
     await fetch("https://coffee-time-69oq.onrender.com/order/" + orderNo,{
-        method:"PUT",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-            status:status
-        })
-    });
-
+    method:"PUT",
+    headers:{
+        "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+        status:status
+    })
+});
     loadOrders();
 
 }
